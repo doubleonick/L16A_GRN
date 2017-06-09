@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 6f82ced8905239344b5d76d8859d8b73
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - partPool: {instanceID: 0}
+  - neuronPool: {instanceID: 0}
+  - connectionPrefab: {fileID: 402470, guid: 2706516714539174da861f2b4add69b0, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
