@@ -21,8 +21,13 @@ public class SimpleCarController : MonoBehaviour {
     public float timeCurrent;
     public int steerMode;
     public Light morningstar;
+    public GameObject ir_cone;//Do this the same was as with bricks in block smasher...
+    public List<GameObject> ir_sensors;
 
     public void Start(){
+    	Rigidbody ir_sensor	   = new Rigidbody();
+    	Quaternion ir_rotation = new Quaternion();
+    	Vector3 ir_position    = new Vector3();
     	wheelColliders = GameObject.Find("WheelColliders");
     	morningstar = GameObject.Find("Directional Light").GetComponent<Light>();
     	wheels.Add(wheelColliders.transform.Find("frontRight").GetComponent<WheelCollider>());
@@ -40,6 +45,18 @@ public class SimpleCarController : MonoBehaviour {
 		timeElapsed  = 0;
 		timeCurrent = 0;
 		steerMode   = 0;
+
+		ir_sensors = new List<GameObject>();
+		for(int i = 0; i < 8; i++){
+			ir_rotation = Quaternion.Euler(0, 45 * i, 90);
+			ir_position = this.transform.position;
+			print("ir_rotation " + ir_rotation.ToString());
+			ir_sensor = Instantiate(ir_cone, ir_position, ir_rotation).GetComponent<Rigidbody>();
+			ir_position = ir_sensor.transform.forward * 525;
+			ir_sensor.MovePosition(ir_position);
+
+			//ir_sensor.transform.position = ir_position;
+		}
     	//print(wheelColliders.name + " contains " + frontRightCollider.name + "and that's nice, 'cause....");
     }
 
@@ -71,10 +88,10 @@ public class SimpleCarController : MonoBehaviour {
 				foreach(WheelCollider wheel in wheels){
 					
 					if(wheel.name.Contains("Left")){
-						wheel.motorTorque = 50f;
+						wheel.motorTorque = 500f;
 						wheel.steerAngle = 0f;
 					}else if(wheel.name.Contains("Right")){
-						wheel.motorTorque = -50f;
+						wheel.motorTorque = 500f;
 						wheel.steerAngle = 0f;
 					}
 				}
@@ -82,16 +99,16 @@ public class SimpleCarController : MonoBehaviour {
 			}else if(steerMode == 1){
 				foreach(WheelCollider wheel in wheels){
 					if(wheel.name.Contains("Left")){
-						wheel.motorTorque = -50f;
+						wheel.motorTorque = -500f;
 						wheel.steerAngle = 0f;
 					}else if(wheel.name.Contains("Right")){
-						wheel.motorTorque = 50f;
+						wheel.motorTorque = -500f;
 						wheel.steerAngle = 0f;
 					}
 				}
 				steerMode = 0;
 			}
-			timeElapsed = timeCurrent + 10.0f;
+			timeElapsed = timeCurrent + 30.0f;
 		}
 //        float motor = maxMotorTorque * Input.GetAxis("Vertical");
 //        float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
